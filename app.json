@@ -1,0 +1,12 @@
+{
+  "name": "spacestock",
+  "displayName": "spacestock",
+  "expo": {
+    "name": "spacestock",
+    "slug": "spacestock",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
