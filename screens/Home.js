@@ -10,7 +10,10 @@ import { observer } from "mobx-react-lite";
 import throttle from 'lodash.throttle'
 
 const styles = StyleSheet.create({
-	container: {flex: 1, flexDirection: 'column'},
+	container: {
+		flex: 1,
+		flexDirection: 'column'
+	},
 
 	banner: {
 		// flex: 1,
@@ -18,9 +21,10 @@ const styles = StyleSheet.create({
 	},
 
 	searchContainer: {
-		flex: 1,
+		// flex: 1,
 		flexDirection: 'row',
-		marginTop: 15
+		marginTop: 15,
+		height: 80
 	},
 	searchContainerBuilding: {
 		flex: 7,
@@ -92,7 +96,7 @@ export const HomeScreen = observer(({ navigation }) => {
 
 		store.discovery.getDiscovery()
 			.then(res => {
-				console.log({searchSelect}, ' -> ')
+				console.log({res}, ' -> ')
 				searchSelect.current._closeSelector()
 				navigation.navigate('Search')
 			})
@@ -124,57 +128,55 @@ export const HomeScreen = observer(({ navigation }) => {
 				uri: "https://res.cloudinary.com/dpqdlkgsz/image/upload/t_alohomora/v1/homepage/banner.jpg"
 			}}/>
 
-		<View>
-			<View
-				style={styles.searchContainer}>
-				<View style={{
-					flex: 7
-				}}>
-					<Dropdown
-						label='Cari'
-						data={buildingType}
-						onChangeText={(value) => setSelectedBuildingType(value)}
-					/>
-				</View>
-				<View style={styles.searchContainerType}>
-					<Text>Saya Ingin</Text>
-					<Toggle
-						value={isBuying}
-						onPress={(newState) => setIsBuying(newState)}
-						leftTitle="Sewa"
-						rightTitle="Beli"
-						thumbButton={{
-							radius: 8
-						}}
-						trackBar={{
-							width: 100,
-							height: 50,
-							radius: 8,
-						}}
-					/>
-				</View>
+		<View
+			style={styles.searchContainer}>
+			<View style={{
+				flex: 7,
+			}}>
+				<Dropdown
+					label='Cari'
+					data={buildingType}
+					onChangeText={(value) => setSelectedBuildingType(value)}
+				/>
 			</View>
-
-			<View>
-				<SectionedMultiSelect
-					ref={searchSelect}
-					items={locations}
-					IconRenderer={Icon}
-					uniqueKey="name"
-					subKey="children"
-					selectText="Cari Lokasi"
-					searchPlaceholderText={"Cari Lokasi"}
-					confirmText={"Cari"}
-					showDropDowns={true}
-					readOnlyHeadings={true}
-					onSelectedItemsChange={onSelectSearchItem}
-					selectedItems={[]}
-					filterItems={(searchText, items, props) => {
-						searchLocation(searchText)
-						return locations
+			<View style={styles.searchContainerType}>
+				<Text>Saya Ingin</Text>
+				<Toggle
+					value={isBuying}
+					onPress={(newState) => setIsBuying(newState)}
+					leftTitle="Sewa"
+					rightTitle="Beli"
+					thumbButton={{
+						radius: 8
+					}}
+					trackBar={{
+						width: 100,
+						height: 50,
+						radius: 8,
 					}}
 				/>
 			</View>
+		</View>
+
+		<View style={{marginTop: 15, flex: 1}}>
+			<SectionedMultiSelect
+				ref={searchSelect}
+				items={locations}
+				IconRenderer={Icon}
+				uniqueKey="name"
+				subKey="children"
+				selectText="Cari Lokasi"
+				searchPlaceholderText={"Cari Lokasi"}
+				confirmText={"Cari"}
+				showDropDowns={true}
+				readOnlyHeadings={true}
+				onSelectedItemsChange={onSelectSearchItem}
+				selectedItems={[]}
+				filterItems={(searchText, items, props) => {
+					searchLocation(searchText)
+					return locations
+				}}
+			/>
 		</View>
 
 	</View>)

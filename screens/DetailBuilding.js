@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph, Subheading, Chip } from 'react-native-paper';
 import {useEffect} from "react";
 import {useStore} from "../store/useStore";
+import {observer} from "mobx-react-lite";
 
 const style = StyleSheet.create({
 	chip: {
@@ -17,7 +18,7 @@ const style = StyleSheet.create({
 	}
 })
 
-export function DetailBuildingScreen({navigation, route}) {
+export const DetailBuildingScreen = observer(({navigation, route}) => {
 	const {data} = route.params;
 	const store = useStore()
 
@@ -31,6 +32,9 @@ export function DetailBuildingScreen({navigation, route}) {
 		store.unit.getUnit(data.id)
 			.then(res => {
 				console.log({res}, 'DetailBuildingScreen -> ')
+			})
+			.catch(err => {
+
 			})
 	}, []) // didMount
 
@@ -49,8 +53,9 @@ export function DetailBuildingScreen({navigation, route}) {
 		{store.unit.data.map(du => {
 			return (
 				<Card style={{marginTop: 15}} onPress={() => {
-					navigation.navigate("DetailBuilding", {
-						// data: d
+					navigation.navigate("DetailRoom", {
+						complex: data,
+						unit: du
 					})
 				}}>
 					<Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
@@ -71,5 +76,5 @@ export function DetailBuildingScreen({navigation, route}) {
 			)
 		})}
 	</ScrollView>)
-}
+})
 

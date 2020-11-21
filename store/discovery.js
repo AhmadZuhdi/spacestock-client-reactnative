@@ -18,7 +18,8 @@ export class DiscoveryStore {
 		listing_type: 'rent',
 		building_type: 'apartment',
 		poi: '',
-		area: ''
+		area: '',
+		sort: '', // asc(name) desc(name) asc(price) desc(price)
 	}
 
 	constructor(context) {
@@ -31,7 +32,9 @@ export class DiscoveryStore {
 	}
 
 	getDiscovery() {
-		return fetch(`https://spacestock.com/api/discovery/1.0/complex?${toQueryString(this.filter)}`)
+		const url = `https://spacestock.com/api/discovery/1.0/complex?${toQueryString(this.filter, true)}`
+		console.log({url}, 'DiscoveryStore -> getDiscovery')
+		return fetch(url)
 			.then(res => res.json())
 			.then(res => {
 				this.data = res.data
